@@ -9,4 +9,7 @@
 
 // TODO: Function declarations here for ls2
 
+bool fileSearch(stack_t *s, char *path, char *fileName, int indent);
+DIR* readDir(stack_t *s, char *path, int indent);
+void mode1Recurse(stack_t *s, char *path, int indent);
 #endif

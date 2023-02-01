@@ -24,6 +24,13 @@ int main(int argc, char* argv[]) {
 
 	/*
 	if (argc == 3){
+		//in the case of this, we need to create a stack and pass it through the recursive calls
+
+	}
+	else if (argc == 2){
+		//make the stack
+		// call  mode 1 recurse
+		//print stack
 
 	}
 	else {printf("Usage: ./ls2 <path> [optional-file]\n");}
