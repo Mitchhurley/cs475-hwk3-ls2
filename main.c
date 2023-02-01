@@ -21,4 +21,14 @@ int main(int argc, char* argv[]) {
 	// free up stack
 	freestack(s);
 	return 0;
+
+	/*
+	if (argc == 3){
+
+	}
+	else {printf("Usage: ./ls2 <path> [optional-file]\n");}
+	return 0;
+	
+	
+	*/
 }
