@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include "stack.h"
 #include "ls2.h"
 
@@ -10,13 +11,15 @@
 int main(int argc, char* argv[]) {
 	// stack stores the lines to print out
 	stack_t *s = initstack();
-
-	push(s, "Hello1");
-	push(s, "Hello2");
-	push(s, "Hello3");
+	//char path[MAX_NAME_LENGTH] = "";
+	
+	printf("%s",getenv("PWD"));
+	fileSearch(s, "./test", "", 1);
 
 	// print stack
+
 	printstack(s);
+	
 
 	// free up stack
 	freestack(s);
@@ -24,13 +27,15 @@ int main(int argc, char* argv[]) {
 
 	/*
 	if (argc == 3){
-		//in the case of this, we need to create a stack and pass it through the recursive calls
+		//in the case of this, we need to create a stack and pass
+		//it through the recursive calls
 
 	}
 	else if (argc == 2){
 		//make the stack
-		// call  mode 1 recurse
+		// call  mode 1 recurse with path (".")
 		//print stack
+		//when printing stack in order to reverse it, push onto a new stack then print that
 
 	}
 	else {printf("Usage: ./ls2 <path> [optional-file]\n");}

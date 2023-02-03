@@ -6,10 +6,10 @@
 #define TRUE 1
 #define FALSE 0
 #define INDENT "    "
+#define MAX_NAME_LENGTH 20000
 
 // TODO: Function declarations here for ls2
 
-bool fileSearch(stack_t *s, char *path, char *fileName, int indent);
-DIR* readDir(stack_t *s, char *path, int indent);
+int fileSearch(stack_t *s, char *path, char *fileName, int indent);
 void mode1Recurse(stack_t *s, char *path, int indent);
 #endif
