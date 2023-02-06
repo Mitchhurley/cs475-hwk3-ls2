@@ -7,6 +7,7 @@
 #define FALSE 0
 #define INDENT "    "
 #define MAX_NAME_LENGTH 20000
+#define MAX_DEPTH 10
 
 // TODO: Function declarations here for ls2
 

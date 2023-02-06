@@ -11,13 +11,15 @@
 int main(int argc, char* argv[]) {
 	// stack stores the lines to print out
 	stack_t *s = initstack();
+	//stack_t *rev = initstack();
 	//char path[MAX_NAME_LENGTH] = "";
+	//int keepgoing = 1;
 	
-	printf("%s",getenv("PWD"));
-	fileSearch(s, "./test", "", 1);
+	fileSearch(s, ".", "", 1);
 
 	// print stack
-
+	//while (s->top != NULL)
+	
 	printstack(s);
 	
 
