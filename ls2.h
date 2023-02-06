@@ -12,5 +12,5 @@
 // TODO: Function declarations here for ls2
 
 int fileSearch(stack_t *s, char *path, char *fileName, int indent);
-void mode1Recurse(stack_t *s, char *path, int indent);
+int mode1Recurse(stack_t *s, char *path, int indent);
 #endif
