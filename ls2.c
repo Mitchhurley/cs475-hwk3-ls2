@@ -12,48 +12,54 @@
 int fileSearch(stack_t *s, char *path, char *fileName, int indent){
     DIR *dir;
     struct dirent* entry;
-    char indentStr[MAX_NAME_LENGTH] = "\0";
+    struct stat statbuf;
+    char indentStr[MAX_DEPTH] = "\0";
+    char newpath[MAX_NAME_LENGTH];
     
-    if(indent > 3) return 1;
     
     for (int i = 0; i < indent; i++){
         strcat(indentStr, INDENT);
     }
     //start by opening dir
-    if ((dir = opendir(path)) == NULL)
-        perror(path);
+    if ((dir = opendir(path)) == NULL){
+        //if there is an error print out issue
+        perror("Directory could not be found or opened");
+        return 0;}
     //while there are still files
     while ((entry = readdir(dir)) != NULL){
         if (entry->d_type  == DT_DIR){
-            char tmpstr[MAX_NAME_LENGTH] = "\0";
-            strcpy(tmpstr, entry->d_name);
             
-            if(strcmp(tmpstr, ".") !=0 && strcmp(tmpstr, "..") != 0){
+            //ignoring the current
+            
+            
+            if(strcmp(entry->d_name, ".") !=0 && strcmp(entry->d_name, "..") != 0){
+                char pushstr[MAX_NAME_LENGTH];
                 //control the push based on return value, then return the return value
-                //define nPath as big then strcpy into it
-                char nPath[MAX_NAME_LENGTH] = "\0";
                 
                 
-                strcpy(nPath, strdup(path));
-                strcat(nPath, "/");
-                strcat(strcat(nPath,entry->d_name),"/");
-                printf("\nRunning file search on %s, using string %s\n", path, nPath);
-                fileSearch(s, nPath, fileName, indent + 1);
-                char pushstr[MAX_NAME_LENGTH] = "\0";
-                strcpy(pushstr, strdup(strcat(indentStr, entry->d_name)));
-                printf("\nPush string is %s", pushstr);
-                push(s, pushstr);
-                
+                snprintf(pushstr, sizeof(pushstr), "%s%s/ (Directory)", indentStr, entry->d_name);
+                //compose the new path
+                snprintf(newpath, sizeof(newpath), "%s/%s", path, entry->d_name);
+                char *tmp = (char*) malloc(sizeof(pushstr));
+                strcpy(tmp, strdup(pushstr));
+                snprintf(pushstr, sizeof(pushstr), "%s%s/", indentStr, entry->d_name);
+                push(s, tmp);
+                fileSearch(s, newpath, fileName, indent + 1);
+                                
                 }
         }
         //if its a directory construct the string, pop it on then recurse on it
         else if (entry->d_type == DT_REG){
-            char tmpstr[MAX_NAME_LENGTH] = "\0";
-            strcpy(tmpstr, entry->d_name);
             char nPath[MAX_NAME_LENGTH] = "\0";
-            strcat(strcpy(nPath, strdup(path)), "\\");
-            char *pushstr = strdup(nPath);
-            push(s, pushstr);
+            snprintf(nPath, sizeof(nPath), "%s/%s", path, entry->d_name);
+            if (lstat(nPath, &statbuf) == -1) {
+                    perror("lstat");
+                    closedir(dir);
+                    return 0;}
+            char tmpstr[MAX_NAME_LENGTH] = "\0";
+            unsigned long long bytes = statbuf.st_size;
+            snprintf(tmpstr, sizeof(tmpstr),"%s%s (placeholder)", indentStr, entry->d_name);
+            push(s, tmpstr);
         }
         //if its a file, construct the string and pop the string on
     
